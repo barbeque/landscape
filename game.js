@@ -11,6 +11,10 @@ var scene = new THREE.Scene();
 scene.add(camera);
 camera.position.z = 300;
 
+// TODO: Set up fullscreen stuff for rendering
+// TODO: Set up game loop
+// TODO: Write mesh handling tools
+
 var radius = 50, segments = 16, rings = 16;
 var sphereMaterial = new THREE.MeshLambertMaterial({
 	color: 0xcc0000
