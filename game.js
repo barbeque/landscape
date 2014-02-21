@@ -96,8 +96,8 @@ $("#lissajous-cam").click(function() {
 
 var step = function(renderer, scene, camera) {
 	return function() {
-		++t;
 		if(isDrunk) {
+			++t;
 			camera.rotation.y = 1.5 * Math.sin(lissajousA * (t/15.0) + 3.14*0.5) + 16;
 			camera.rotation.x = 0.05 * Math.sin(lissajousB * (t/15.0));
 		}
