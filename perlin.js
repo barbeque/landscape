@@ -2,29 +2,36 @@ function makePerlinArray(w, h) {
 	var arr = new Array(h * w);
 	for(var y = 0; y < h; ++y) {
 		for(var x = 0; x < w; ++x) {
-			arr[y * w + x] = _perlinCell(x, y);
+			var q = _perlinCell(x, y);
+			if(isNaN(q)) {
+				q = 0.0;
+			}
+			arr[y * w + x] = q;
 		}
 	}
 	return arr;
 }
 
+function normalizeArray(a) {
+	var magnitude = Math.sqrt(_.reduce(a, function(memo, num) { return memo + (num*num); }, 0));
+	return _.map(a, function(n) { return n / magnitude; });	
+}
+
 function _perlinCell(x, y) {
 	total = 0;
-	p = 0.25
+	p = 0.76;
 	n = 10; // 10 octaves
 
 	for(var i = 0; i < n; ++i) {
 		frequency = Math.pow(2, i);
 		amplitude = Math.pow(p, i);
-		total = total + _generateInterpolatedNoise(x * frequency, y * frequency) * amplitude;
+		total += _generateInterpolatedNoise(x * frequency, y * frequency) * amplitude;
 	}
 
 	return total
 }
 
 function _generateInterpolatedNoise(x, y) {
-	
-
 	var intX = parseInt(x);
 	var fractionalX = x - intX;
 	var intY = parseInt(y);
@@ -36,7 +43,7 @@ function _generateInterpolatedNoise(x, y) {
 	v4 = _smoothedNoise(intX + 1, intY + 1);
 
 	i1 = _lerp(v1, v2, fractionalX);
-	i2 = _lerp(v3, v4, fractionalY);
+	i2 = _lerp(v3, v4, fractionalX);
 
 	return _lerp(i1, i2, fractionalY);
 }
@@ -57,6 +64,3 @@ function _noise(x,y) {
 function _lerp(a, b, n) {
 	return (a * (1 - n)) + (b * n);
 }
-
-// todo... implement the rest of the perlin function
-	// then use it to make clouds.
