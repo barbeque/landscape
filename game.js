@@ -16,16 +16,47 @@ camera.position.z = 300;
 // TODO: Write mesh handling tools
 
 var radius = 50, segments = 16, rings = 16;
-var sphereMaterial = new THREE.MeshLambertMaterial({
-	color: 0xcc0000
+var terrainMaterial = new THREE.MeshLambertMaterial({
+	color: 0x00cc00
 });
-var sphere = new THREE.Mesh(
-	new THREE.SphereGeometry(
-		radius, segments, rings
-	),
-	sphereMaterial
-);
-scene.add(sphere);
+
+// Create heightmap geometry
+var geometry = new THREE.Geometry();
+var MAP_WIDTH = 10;
+var MAP_HEIGHT = 10;
+for(var z = 0; z < MAP_HEIGHT; ++z) {
+	for(var x = 0; x < MAP_WIDTH; ++x) {
+		geometry.vertices.push(new THREE.Vector3(x, Math.random() * 3.0, z));
+	}
+}
+
+// Make faces
+for(var z = 0; z < MAP_HEIGHT - 1; ++z) {
+	for(var x = 0; x < MAP_WIDTH - 1; ++x) {
+		// two triangles of the face
+		// (x,z)    (x+1, z)
+		// (x,z+1)
+		// and
+		//          (x+1,z)
+		// (x,z+1)  (x+1,z+1)
+		a = (z * MAP_WIDTH) + x;
+		b = (z + 1) * MAP_WIDTH + x;
+		c = (z * MAP_WIDTH) + (x + 1);
+		geometry.faces.push(new THREE.Face3(a, b, c))
+		d = (z + 1) * MAP_WIDTH + (x + 1);
+		geometry.faces.push(new THREE.Face3(c, b, d));
+	}
+}
+geometry.computeFaceNormals();
+
+// Build the mesh
+var heightmap = new THREE.Mesh(geometry, terrainMaterial);
+heightmap.scale.set(MAP_WIDTH, 3, MAP_HEIGHT);
+heightmap.position.z = -0.5;
+heightmap.position.x = 5;
+heightmap.rotation.x = 1.4;
+
+scene.add(heightmap); // todo: position?
 
 var pointLight = new THREE.PointLight(0xFFFFFF);
 pointLight.position.x = 10;
