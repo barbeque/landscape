@@ -98,7 +98,7 @@ var step = function(renderer, scene, camera) {
 	return function() {
 		if(isDrunk) {
 			++t;
-			camera.rotation.y = 1.5 * Math.sin(lissajousA * (t/15.0) + 3.14*0.5) + 16;
+			camera.rotation.y = 0.85 * Math.sin(lissajousA * (t/15.0) + 3.14*0.5) + 16;
 			camera.rotation.x = 0.05 * Math.sin(lissajousB * (t/15.0));
 		}
 		renderer.render(scene, camera);
