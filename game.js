@@ -82,6 +82,12 @@ for(var z = 0; z < MAP_HEIGHT; ++z) {
 	}
 }
 
+// Build some clouds...
+var noise = makePerlinArray(MAP_WIDTH, MAP_HEIGHT);
+console.log("Min perlin value = " + _.min(noise));
+console.log("Max perlin value = " + _.max(noise));
+console.log("Random 5-sample = " + _.sample(noise, 5));
+
 renderer.setSize(WIDTH, HEIGHT);
 $container.append(renderer.domElement);
 
