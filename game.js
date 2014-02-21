@@ -9,7 +9,10 @@ var camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
 var scene = new THREE.Scene();
 
 scene.add(camera);
-camera.position.z = 300;
+camera.position.z = 40;
+camera.position.x = 40;
+camera.position.y = 8;
+camera.rotation.y = 16;
 
 // TODO: Set up fullscreen stuff for rendering
 // TODO: Set up game loop
@@ -51,10 +54,8 @@ geometry.computeFaceNormals();
 
 // Build the mesh
 var heightmap = new THREE.Mesh(geometry, terrainMaterial);
-heightmap.scale.set(MAP_WIDTH, 3, MAP_HEIGHT);
-heightmap.position.z = -0.5;
-heightmap.position.x = 5;
-heightmap.rotation.x = 1.4;
+heightmap.scale.set(MAP_WIDTH, 1, MAP_HEIGHT);
+heightmap.position.set(-MAP_WIDTH*0.5, -1.5, -MAP_HEIGHT*0.5);
 
 scene.add(heightmap); // todo: position?
 
@@ -69,6 +70,7 @@ $container.append(renderer.domElement);
 
 var step = function(renderer, scene, camera) {
 	return function() {
+		camera.rotation.y += 0.2;
 		renderer.render(scene, camera);
 	}
 }(renderer, scene, camera);
