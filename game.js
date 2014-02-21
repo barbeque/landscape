@@ -56,7 +56,6 @@ geometry.computeFaceNormals();
 var heightmap = new THREE.Mesh(geometry, terrainMaterial);
 // Make each tile 10x10
 heightmap.scale.set(10, 1, 10);
-heightmap.position.set(-MAP_WIDTH*0.5, -1.5, -MAP_HEIGHT*0.5);
 
 scene.add(heightmap); // todo: position?
 
