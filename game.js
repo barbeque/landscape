@@ -25,8 +25,8 @@ var terrainMaterial = new THREE.MeshLambertMaterial({
 
 // Create heightmap geometry
 var geometry = new THREE.Geometry();
-var MAP_WIDTH = 10;
-var MAP_HEIGHT = 10;
+var MAP_WIDTH = 100;
+var MAP_HEIGHT = 100;
 for(var z = 0; z < MAP_HEIGHT; ++z) {
 	for(var x = 0; x < MAP_WIDTH; ++x) {
 		geometry.vertices.push(new THREE.Vector3(x, Math.random() * 3.0, z));
@@ -54,7 +54,8 @@ geometry.computeFaceNormals();
 
 // Build the mesh
 var heightmap = new THREE.Mesh(geometry, terrainMaterial);
-heightmap.scale.set(MAP_WIDTH, 1, MAP_HEIGHT);
+// Make each tile 10x10
+heightmap.scale.set(10, 1, 10);
 heightmap.position.set(-MAP_WIDTH*0.5, -1.5, -MAP_HEIGHT*0.5);
 
 scene.add(heightmap); // todo: position?
@@ -64,6 +65,23 @@ pointLight.position.x = 10;
 pointLight.position.y = 50;
 pointLight.position.z = 130;
 scene.add(pointLight);
+
+// Build the border fence for display purposes.
+var extentMaterial = new THREE.LineBasicMaterial({
+	color: 0xff00000
+});
+for(var z = 0; z < MAP_HEIGHT; ++z) {
+	for(var x = 0; x < MAP_WIDTH; ++x) {
+		if(x != 0 && z != 0 && x != MAP_WIDTH-1 && z != MAP_HEIGHT - 1) {
+			continue; // is this more nyquil talking?
+		}
+		var g = new THREE.Geometry(); // x10 for tile size!
+		g.vertices.push(new THREE.Vector3(x * 10, -6, z * 10));
+		g.vertices.push(new THREE.Vector3(x * 10, 6, z * 10));
+		var line = new THREE.Line(g, extentMaterial);
+		scene.add(line);
+	}
+}
 
 renderer.setSize(WIDTH, HEIGHT);
 $container.append(renderer.domElement);
