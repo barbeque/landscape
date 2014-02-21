@@ -85,9 +85,22 @@ for(var z = 0; z < MAP_HEIGHT; ++z) {
 renderer.setSize(WIDTH, HEIGHT);
 $container.append(renderer.domElement);
 
+var t = 0;
+var lissajousA = 1.0;
+var lissajousB = 7.5;
+var isDrunk = false;
+
+$("#lissajous-cam").click(function() {
+	isDrunk = $(this).is(':checked');
+});
+
 var step = function(renderer, scene, camera) {
 	return function() {
-		camera.rotation.y += 0.2;
+		++t;
+		if(isDrunk) {
+			camera.rotation.y = 1.5 * Math.sin(lissajousA * (t/15.0) + 3.14*0.5) + 16;
+			camera.rotation.x = 0.05 * Math.sin(lissajousB * (t/15.0));
+		}
 		renderer.render(scene, camera);
 	}
 }(renderer, scene, camera);
