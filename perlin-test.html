@@ -29,9 +29,10 @@
 				var row = table.insertRow(y);
 				for(var x = 0; x < w; ++x) {
 					var cell = row.insertCell(x);
+					var perlinValue = array[y * h + x];
 					cell.id = "cell" + x + "-" + y;
 					cell.innerHTML = "&nbsp;";
-					cell.style.backgroundColor = rgb2hex(parseInt(255.0 * (y/h)), parseInt(255.0 * (x / w)), 0);
+					cell.style.backgroundColor = rgb2hex(0, parseInt(255.0 * perlinValue), 0); //rgb2hex(parseInt(255.0 * (y/h)), parseInt(255.0 * (x / w)), 0);
 				}
 			}
 
