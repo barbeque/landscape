@@ -1,0 +1,41 @@
+<html>
+	<head>
+		<style>
+			table td {
+				border: 1px solid black;
+			}
+		</style>
+	</head>
+	<body>
+		<div>
+			<table id="target">
+			</table>
+		</div>
+
+		<script src="perlin.js"></script>
+		<script>
+			function rgb2hex(red, green, blue) {
+				var rgb = blue | (green << 8) | (red << 16);
+				return '#' + (0x1000000 + rgb).toString(16).slice(1);
+			}
+
+			var w = 16;
+			var h = 16;
+
+			var array = makePerlinArray(w, h);
+			var table = document.querySelector('#target');
+
+			for(var y = 0; y < h; ++y) {
+				var row = table.insertRow(y);
+				for(var x = 0; x < w; ++x) {
+					var cell = row.insertCell(x);
+					cell.id = "cell" + x + "-" + y;
+					cell.innerHTML = "&nbsp;";
+					cell.style.backgroundColor = rgb2hex(parseInt(255.0 * (y/h)), parseInt(255.0 * (x / w)), 0);
+				}
+			}
+
+
+		</script>
+	</body>
+</html>
