@@ -3,7 +3,7 @@ var VIEW_ANGLE = 45;
 var ASPECT = WIDTH/HEIGHT;
 var NEAR = 0.1, FAR = 10000;
 
-var $container = $('#container');
+var $container = document.querySelector('#container');
 var renderer = new THREE.WebGLRenderer();
 var camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
 var scene = new THREE.Scene();
@@ -89,16 +89,16 @@ console.log("Max perlin value = " + _.max(noise));
 console.log("Random 5-sample = " + _.sample(noise, 5));
 
 renderer.setSize(WIDTH, HEIGHT);
-$container.append(renderer.domElement);
+$container.appendChild(renderer.domElement);
 
 var t = 0;
 var lissajousA = 1.0;
 var lissajousB = 7.5;
 var isDrunk = false;
 
-$("#lissajous-cam").click(function() {
-	isDrunk = $(this).is(':checked');
-});
+document.querySelector("#lissajous-cam").onclick = function() {
+	isDrunk = document.querySelector("#lissajous-cam").checked;
+};
 
 var step = function(renderer, scene, camera) {
 	return function() {
